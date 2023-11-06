@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detector</title>
+    <!-- <link href="style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="navigation">
+        <ul class="nav-lists">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="services.html">SERVICES</a></li>
+        </ul>
+    </div>
+    <div>
+    <div class="inserter">
+        <form action="{{url_for('classifier')}}" method="post">
+            <label for="SpamConnect">Spam<i>Checker 2.0</i></label>
+            <input class="ki" id="SpamConnect" placeholder="SpamChecker" name="input" required>
+            <button class="btn" type="submit">submit</button>
+            
+        </form>
+    </div>
+</body>
+</html>
