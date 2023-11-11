@@ -7,22 +7,15 @@ import re
 from nltk.corpus import stopwords 
 vec = TfidfVectorizer()
 
-model_name = jb.load("spam_model_byRayco.joblib")
+model_name = jb.load(open("spam_model_byRayco.joblib","rb"))
+vec = jb.load(open("TheChanger.joblib","rb"))
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("homepage.html")
 
 stemmer = PorterStemmer()
-def removerr(y):
-        clean_message = re.sub("[^a-zA-z]"," ", y)
-        clean_message = clean_message.lower()
-        clean_message = clean_message.split()
-        clean_message = [stemmer.stem(everyword) for everyword in clean_message if not everyword in stopwords.words("english")]
-        clean_message = " ".join(clean_message)
-        return clean_message
-
 
 @app.route("/spam_classifier",methods=["GET", "POST"])
 def classifier():
@@ -32,21 +25,13 @@ def classifier():
         clean_message = clean_message.lower()
         clean_message = clean_message.split()
         clean_message = [stemmer.stem(everyword) for everyword in clean_message if not everyword in stopwords.words("english")]
-        convt_text = vec.fit_transform(clean_message)
+        convt_text = vec.transform(clean_message)
         prediction = model_name.predict(convt_text)
-        return f"<h1> preprocessed {prediction}</h1>"
+        spam= "Spam"
+        notspam= "notSpam"
+        return render_template("homepage.html",prediction=prediction[0],spam=spam,notspam=notspam)
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-
-@app.route("/predict",methods=["POST","GET"])
-def predictor()->str:
-    if request.method=="POST":
-     data1 = request.form.get("input")
-     conv=vec.fit_transform()
-
-
-x = 1
-x+=23
-print(x)
+#Updated today< November 11, 5PM
