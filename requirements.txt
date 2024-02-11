@@ -1,0 +1,6 @@
+pandas
+numpy
+nltk
+scikit-learn
+joblib
+-e .

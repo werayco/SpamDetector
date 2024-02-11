@@ -14,10 +14,11 @@ import logging
 from sklearn.model_selection import StratifiedKFold
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import KFold
+import pickle as pkl
 
 
 #checking through the dataframe
-data_1=pd.read_csv(".\mail_data.csv")
+data_1=pd.read_csv(".\spam_data.csv")
 
 #assigning spam as 1 and not spam using customized function
 def conv(x):
@@ -27,6 +28,8 @@ def conv(x):
         return 0
         
 data_1["Category"] = data_1["Category"].apply(conv)
+# deleting the duplicated records
+data_1=data_1.drop_duplicates()
 
 #lets remove all the numbers, stopwords and stem the message column
 stemmer = PorterStemmer()
@@ -67,9 +70,11 @@ results = cross_val_score(spammer,x_1,y,cv=kfolds_1,scoring="accuracy")
 print(np.mean(results))
 
 #saving our modelk8.9k
-our_model=jb.dump(spammer,"spam_model_byRayco.joblib")
-name = 'the name of the "man" is kunle'
+with open("model.pkl","wb") as file2:
+    pkl.dump(spammer,file2)
 
+with open("vectorizer.pkl","wb") as file1:
+    pkl.dump(vec,file1)
 
 
 

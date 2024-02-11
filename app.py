@@ -1,14 +1,13 @@
 from flask import Flask, render_template, request,url_for
 import joblib as jb
 import pickle as plk
-from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.porter import PorterStemmer
 import re
 from nltk.corpus import stopwords 
-vec = TfidfVectorizer()
+from utilss import changer
 
-model_name = jb.load(open("spam_model_byRayco.joblib","rb"))
-vec = jb.load(open("TheChanger.joblib","rb"))
+model_name = changer("model.pkl")
+vec = changer("vectorizer.pkl")
 app = Flask(__name__)
 
 @app.route("/")
@@ -16,6 +15,7 @@ def index():
     return render_template("homepage.html")
 
 stemmer = PorterStemmer()
+
 
 @app.route("/spam_classifier",methods=["GET", "POST"])
 def classifier():
